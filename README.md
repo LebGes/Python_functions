@@ -168,6 +168,7 @@ def outer():
 
     def inner():
         x = "local"
+
         print(x)  # local
 
     inner()
@@ -294,6 +295,7 @@ def count_up_to(n):
     while i <= n:
 
         yield i
+
         i += 1
 
 for v in count_up_to(3):
