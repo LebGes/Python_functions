@@ -37,11 +37,11 @@
 
 ## Объявление метода
 ```
-def имя_функции(параметры):
+def <имя_функции>(<параметры>):
     """ Докстринг — описание функции."""
-    тело
+    <тело>
 
-    return значение  # опционально
+    return <значение>  # опционально
 ```
 
 ## Аргументы и параметры — виды
@@ -50,7 +50,7 @@ def имя_функции(параметры):
 ```
 def add(a, b):
 
-  return a + b
+    return a + b
 
 
 add(2, 3)  # 5
@@ -67,7 +67,7 @@ add(b=3, a=2)
 ```
 def power(x, n=2):
 
-  return x ** n
+    return x ** n
 
 
 power(3)    # 9
@@ -78,9 +78,9 @@ power(3, 3) # 27
 
 ```
 def bad_append(x, lst=[]):
-  lst.append(x)
+    lst.append(x)
 
-  return lst
+    return lst
 
 
 bad_append(1)  # [1]
@@ -89,24 +89,24 @@ bad_append(2)  # [1, 2]  <- часто неожиданно
 Правильный вариант:
 ```
 def safe_append(x, lst=None):
-  if lst is None:
-    lst = []
+    if lst is None:
+        lst = []
 
-  lst.append(x)
+    lst.append(x)
 
-  return lst
+    return lst
 ```
 
 ### *args — произвольный набор позиционных аргументов
 
 ```
 def sum_all(*args):
-  total = 0
+    total = 0
 
-  for v in args:
-    total += v
+    for v in args:
+        total += v
 
-  return total
+    return total
 
 
 sum_all(1,2,3)  # 6
@@ -117,8 +117,8 @@ sum_all(1,2,3)  # 6
 
 ```
 def print_info(**kwargs):
-  for k, v in kwargs.items():
-    print(k, v)
+    for k, v in kwargs.items():
+        print(k, v)
 
 
 print_info(name="Anna", age=30)
@@ -129,11 +129,11 @@ print_info(name="Anna", age=30)
 
 ```
 def func(a, b, /, c, *, d):
-  """ # a, b — позиционные только
-  # c — либо позиционная, либо именованная
-  # d — именованный только."""
+    """ # a, b — позиционные только
+    # c — либо позиционная, либо именованная
+    # d — именованный только."""
 
-  return a + b + c + d
+    return a + b + c + d
 ```
 Слэши / и * полезны для контроля API функции.
 
@@ -161,28 +161,28 @@ x = "global"
 
 
 def outer():
-  x = "enclosing"
+    x = "enclosing"
 
-  def inner():
-    x = "local"
-      print(x)  # local
+    def inner():
+        x = "local"
+        print(x)  # local
 
-  inner()
-
+    inner()
+```
 
 Чтобы изменить внешнюю переменную в enclosing scope (не глобальную), используйте nonlocal; для глобальной — global.
 
 ```
 def counter():
-  cnt = 0
+    cnt = 0
 
-  def inc():
-    nonlocal cnt
-    cnt += 1
+    def inc():
+        nonlocal cnt
+        cnt += 1
     
-    return cnt
+        return cnt
 
-  return inc
+    return inc
 
 
 c = counter()
@@ -198,11 +198,11 @@ c()  # 2
 ```
 def make_power(n):
 
-  def power(x):
+    def power(x):
 
-    return x ** n
+        return x ** n
 
-  return power
+    return power
 
 
 square = make_power(2)
@@ -237,22 +237,25 @@ pairs.sort(key=lambda p: p[1])
 
 Декоратор — это функция, которая принимает функцию и возвращает новую функцию (обычно обёртку).
 
+```
 def debug(func):
 
-  def wrapper(*args, **kwargs):
-    print(f"Calling {func.__name__} with", args, kwargs)
-    result = func(*args, **kwargs)
-    print(f"{func.__name__} returned", result)
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with", args, kwargs)
 
-    return result
+        result = func(*args, **kwargs)
 
-  return wrapper
+        print(f"{func.__name__} returned", result)
+
+        return result
+
+    return wrapper
 
 
 @debug
 def add(a, b):
 
-  return a + b
+    return a + b
 
 
 add(2, 3)
@@ -265,13 +268,13 @@ from functools import wraps
 
 def debug(func):
 
-  @wraps(func)
-  def wrapper(*args, **kwargs):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
       # ...
-
-      return func(*args, **kwargs)
-
-  return wrapper
+    
+        return func(*args, **kwargs)
+    
+    return wrapper
 ```
 
 Декораторы применяются для логирования, кеширования (functools.lru_cache), проверки прав, и т.д
@@ -283,14 +286,15 @@ def debug(func):
 
 ```
 def count_up_to(n):
-  i = 1
+    i = 1
   
-  while i <= n:
-      yield i
-      i += 1
+    while i <= n:
+
+        yield i
+        i += 1
 
 for v in count_up_to(3):
-  print(v)
+    print(v)
 ```
 
 Генераторы экономят память, позволяют строить бесконечные последовательности, поддерживают send()/throw() API для продвинутого использования.
@@ -303,7 +307,7 @@ for v in count_up_to(3):
 ```
 def greet(name: str) -> str:
 
-  return "Hello " + name
+    return "Hello " + name
 ```
 
 **Type hints** полезны для статической проверки (mypy), автодополнения в IDE и документации.
@@ -327,12 +331,12 @@ def greet(name: str) -> str:
 
 ```
 def factorial(n):
-  if n == 0:             # 1 Базовый случай
+    if n == 0:             # 1 Базовый случай
 
-    return 1
-  else:                  # 2 Рекурсивный случай
+        return 1
+    else:                  # 2 Рекурсивный случай
 
-    return n * factorial(n - 1)
+        return n * factorial(n - 1)
 
 
 print(factorial(5))  # 120
